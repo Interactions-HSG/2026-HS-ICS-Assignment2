@@ -1,0 +1,15 @@
+# Build artifacts -- regenerate these with `make`
+build/
+kernel7l.img
+*.elf
+*.o
+
+# ...but the two programs you investigate and the Pi's firmware blob are real, tracked files
+!Task2-3/kernel.elf
+!Bonus/flash.elf
+!boot/start4.elf
+
+# OS clutter
+.DS_Store
+Thumbs.db
+desktop.ini

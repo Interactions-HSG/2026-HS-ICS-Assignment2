@@ -1,0 +1,45 @@
+name: Submission check
+
+# Runs on every push so you get feedback while you work, not only at the deadline.
+# It never grades your answers -- it only tells you what is still missing or broken.
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  builds:
+    name: Code builds
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # libnewlib provides the C library the linker needs for led.c; gcc-arm-none-eabi
+      # alone ships no libc, so linking fails with "cannot find -lc".
+      - name: Install ARM toolchain
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq --no-install-recommends \
+            gcc-arm-none-eabi binutils-arm-none-eabi libnewlib-arm-none-eabi
+          arm-none-eabi-as --version | head -1
+
+      - name: Build all programs
+        run: make all
+
+      - name: Show resulting kernel images
+        run: make -s sizes
+
+      - name: Bonus image size
+        if: hashFiles('Bonus/flash_optimized.s') != ''
+        run: |
+          old=$(wc -c < build/flash.img)
+          new=$(wc -c < build/flash_optimized.img)
+          echo "**Bonus:** your \`kernel7l.img\` is **$new bytes** (original: $old bytes) -- $((old - new)) bytes smaller." \
+            | tee -a "$GITHUB_STEP_SUMMARY"
+
+  complete:
+    name: Hand-in is complete
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 .github/scripts/check_submission.py

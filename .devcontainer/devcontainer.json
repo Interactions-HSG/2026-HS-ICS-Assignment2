@@ -1,0 +1,22 @@
+{
+  "name": "ICS Assignment 2 -- Assembler Forensics",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
+  "onCreateCommand": "bash .devcontainer/install-toolchain.sh",
+  "postAttachCommand": "arm-none-eabi-as --version | head -1",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.cpptools",
+        "dan-c-underwood.arm",
+        "ms-vscode.hexeditor",
+        "yzhang.markdown-all-in-one",
+        "streetsidesoftware.code-spell-checker"
+      ],
+      "settings": {
+        "editor.wordWrap": "on",
+        "files.trimTrailingWhitespace": true,
+        "markdown.preview.breaks": true
+      }
+    }
+  }
+}
