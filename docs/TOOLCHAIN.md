@@ -22,8 +22,8 @@ the compiler, it contains the two tools that are the stars of this assignment:
 Check that they work:
 
 ```console
-% arm-none-eabi-as --version
-% arm-none-eabi-objdump --version
+arm-none-eabi-as --version
+arm-none-eabi-objdump --version
 ```
 
 If you get **"command not found"**, the toolchain is not on your PATH (or not installed on this
@@ -48,13 +48,13 @@ the card properly, put it in the Pi, and plug in the power.
 From the main folder of your repository:
 
 ```console
-$ make power_led         # Task 1   -- assemble Task1/power_led.s
-$ make kernel            # Task 2   -- the given Task2-3/kernel.elf
-$ make disassemble       # Task 2   -- disassemble kernel.elf into Task2-3/kernel.s
-$ make led               # Task 2.7 -- compile your Task2-3/led.c
-$ make reverse           # Task 3   -- assemble your Task2-3/reverse.s
-$ make flash             # Bonus    -- the given Bonus/flash.elf, as it is
-$ make flash_optimized   # Bonus    -- assemble your Bonus/flash_optimized.s, and print its size
+make power_led         # Task 1   -- assemble Task1/power_led.s
+make kernel            # Task 2   -- the given Task2-3/kernel.elf
+make disassemble       # Task 2   -- disassemble kernel.elf into Task2-3/kernel.s
+make led               # Task 2.7 -- compile your Task2-3/led.c
+make reverse           # Task 3   -- assemble your Task2-3/reverse.s
+make flash             # Bonus    -- the given Bonus/flash.elf, as it is
+make flash_optimized   # Bonus    -- assemble your Bonus/flash_optimized.s, and print its size
 ```
 
 Each of them (except `disassemble`) produces **`kernel7l.img`** in the main folder — that is the
@@ -76,9 +76,9 @@ PowerShell.
 ### Task 1 — assemble `power_led.s`
 
 ```console
-$ cd Task1
-$ arm-none-eabi-as power_led.s -o kernel.elf
-$ arm-none-eabi-objcopy kernel.elf -O binary kernel7l.img
+cd Task1
+arm-none-eabi-as power_led.s -o kernel.elf
+arm-none-eabi-objcopy kernel.elf -O binary kernel7l.img
 ```
 
 The first command **assembles** the code: every line of assembly becomes one 4-byte machine
@@ -90,15 +90,15 @@ code that the Pi's bootloader expects.
 Disassemble it and save the result as `kernel.s`:
 
 ```console
-$ cd Task2-3
-$ arm-none-eabi-objdump -d kernel.elf > kernel.s
+cd Task2-3
+arm-none-eabi-objdump -d kernel.elf > kernel.s
 ```
 
 Turn it into an image to run on the Pi. It is already an ELF file, so only the second step is
 needed:
 
 ```console
-$ arm-none-eabi-objcopy kernel.elf -O binary kernel7l.img
+arm-none-eabi-objcopy kernel.elf -O binary kernel7l.img
 ```
 
 > ⚠️ **Never write `-o kernel.elf` inside `Task2-3/`.** That overwrites the very file you are
@@ -109,11 +109,11 @@ $ arm-none-eabi-objcopy kernel.elf -O binary kernel7l.img
 The same compiler flags as in Assignment 1:
 
 ```console
-$ cd Task2-3
-$ arm-none-eabi-gcc -g -nostartfiles -mfloat-abi=hard -O0 -DRPI4 \
+cd Task2-3
+arm-none-eabi-gcc -g -nostartfiles -mfloat-abi=hard -O0 -DRPI4 \
     -mfpu=crypto-neon-fp-armv8 -march=armv8-a+crc -mcpu=cortex-a72 \
     led.c -o led.elf
-$ arm-none-eabi-objcopy led.elf -O binary kernel7l.img
+arm-none-eabi-objcopy led.elf -O binary kernel7l.img
 ```
 
 > You will see the warning `cannot find entry symbol _start`. That is expected, as in
@@ -122,9 +122,9 @@ $ arm-none-eabi-objcopy led.elf -O binary kernel7l.img
 ### Task 3 — reassemble your `reverse.s`
 
 ```console
-$ cd Task2-3
-$ arm-none-eabi-as reverse.s -o reverse.elf
-$ arm-none-eabi-objcopy reverse.elf -O binary kernel7l.img
+cd Task2-3
+arm-none-eabi-as reverse.s -o reverse.elf
+arm-none-eabi-objcopy reverse.elf -O binary kernel7l.img
 ```
 
 Why `kernel_clean.s` and not `kernel.s`? The disassembler's output carries addresses and raw
@@ -135,11 +135,11 @@ instructions, with labels such as `.L10` as branch targets.
 ### Task 4 — look at the raw bytes
 
 ```console
-$ xxd kernel7l.img               # macOS, Linux, Codespaces
+xxd kernel7l.img               # macOS, Linux, Codespaces
 ```
 
 ```powershell
-PS> Format-Hex kernel7l.img      # Windows PowerShell
+Format-Hex kernel7l.img      # Windows PowerShell
 ```
 
 In a Codespace you can also right-click the file → **Open With…** → **Hex Editor**.
@@ -149,21 +149,21 @@ In a Codespace you can also right-click the file → **Open With…** → **Hex 
 Disassemble it first, exactly like `kernel.elf`:
 
 ```console
-$ cd Bonus
-$ arm-none-eabi-objdump -d flash.elf > flash.s
+cd Bonus
+arm-none-eabi-objdump -d flash.elf > flash.s
 ```
 
 Write your optimized version as assembly in a new file **`flash_optimized.s`** (in the same
 reassemblable style as `kernel_clean.s`), then:
 
 ```console
-$ arm-none-eabi-as flash_optimized.s -o flash_optimized.elf
-$ arm-none-eabi-objcopy flash_optimized.elf -O binary kernel7l.img
-$ wc -c kernel7l.img                         # macOS, Linux: size in bytes
+arm-none-eabi-as flash_optimized.s -o flash_optimized.elf
+arm-none-eabi-objcopy flash_optimized.elf -O binary kernel7l.img
+wc -c kernel7l.img                         # macOS, Linux: size in bytes
 ```
 
 ```powershell
-PS> (Get-Item kernel7l.img).Length            # Windows: size in bytes
+(Get-Item kernel7l.img).Length            # Windows: size in bytes
 ```
 
 The original `flash.elf` gives a 484-byte image. Leave `flash.elf` itself unchanged.

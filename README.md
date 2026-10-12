@@ -89,8 +89,8 @@ The first start takes 2–3 minutes while the toolchain downloads. After that it
 In a terminal:
 
 ```console
-$ git clone https://github.com/your-username/ics-a2-group7.git
-$ cd ics-a2-group7
+git clone https://github.com/your-username/ics-a2-group7.git
+cd ics-a2-group7
 ```
 
 `clone` means "download this repository onto my computer, and remember where it came from".
@@ -118,9 +118,9 @@ type a short message, click **Commit**, then click **Sync Changes**. That's it.
 **In a terminal**, the same thing in three commands:
 
 ```console
-$ git add .                        # which changes go into the snapshot -- "." means all of them
-$ git commit -m "Answered task 2"  # take the snapshot, with a short note about what you did
-$ git push                         # upload it to GitHub
+git add .                        # which changes go into the snapshot -- "." means all of them
+git commit -m "Answered task 2"  # take the snapshot, with a short note about what you did
+git push                         # upload it to GitHub
 ```
 
 Do this often — after every task, not once at the end. It costs 10 seconds and it means a
