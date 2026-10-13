@@ -41,8 +41,8 @@ TODO: replace this line with your answer.
 
 ### 0.4 AI usage
 
-In this assignment you may use AI assistants and agents throughout, and in **Task 2 we ask you
-to** work together with one. Which tools did you use, and for what? For Task 2 in particular: how
+In this assignment you may use AI for some tasks, and in **Task 2 we ask you to** work together
+with one. Which tools did you use, and for what? For Task 2 in particular: how
 did you work with it, and was there anything it got wrong that you had to check or correct?
 
 TODO: replace this line with your answer.
