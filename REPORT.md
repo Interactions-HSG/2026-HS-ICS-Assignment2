@@ -41,9 +41,9 @@ TODO: replace this line with your answer.
 
 ### 0.4 AI usage
 
-You are **encouraged** to use AI throughout this assignment, and in **Task 2 we ask you to**.
-Which tools did you use, and for what? For Task 2 in particular: what did you ask it, and was
-there anything it got wrong that you had to check or correct?
+In this assignment you may use AI assistants and agents throughout, and in **Task 2 we ask you
+to** work together with one. Which tools did you use, and for what? For Task 2 in particular: how
+did you work with it, and was there anything it got wrong that you had to check or correct?
 
 TODO: replace this line with your answer.
 
@@ -63,8 +63,9 @@ TODO: replace this line with your answer.
 
 ## 2. Assembler Forensics (5pt)
 
-> **Use an AI assistant for this task** — and check what it tells you against the manual and
-> your Pi. Note how you used it in section 0.4.
+> **Work on this task together with an AI assistant or agent:** work out with it what the binary
+> does, and debug with it. Check what it tells you against the manual and your Pi. Note how you
+> worked with it in section 0.4.
 
 Disassemble [`Task2-3/kernel.elf`](Task2-3/kernel.elf) into `kernel.s` (`make disassemble`).
 Wire two LEDs, each with its own 330 Ω resistor:

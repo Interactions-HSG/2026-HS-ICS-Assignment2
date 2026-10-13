@@ -195,9 +195,10 @@ when something does not work.
 - The **[BCM2711 ARM Peripherals manual](docs/bcm2711-peripherals.pdf)** from Assignment 1 —
   the GPIO registers on pages **65–70** (`GPFSEL`, `GPSET`, `GPCLR`) are exactly what
   `kernel.elf` writes to.
-- **For Task 2, use an AI assistant** — the sheet asks you to. Ask it to *explain*, and check
-  what it says against the manual: it is often confidently wrong about addresses and bit fields.
-  Write down what you used in section 0.4 of the report.
+- **Work together with AI.** In this assignment you may use AI assistants and agents throughout,
+  and in Task 2 the sheet asks you to: work out together with it what the binary does, and debug
+  with it. Check what it says against the manual — it is often confidently wrong about addresses
+  and bit fields. Write down how you used it in section 0.4 of the report.
 - Come to the exercise session, or ask in your repository's **Issues** tab and mention
   `@lukabekavac` or `@Karimkh31`.
 

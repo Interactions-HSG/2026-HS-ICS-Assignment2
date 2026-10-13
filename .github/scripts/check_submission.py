@@ -24,12 +24,12 @@ GRADERS = ("lukabekavac", "Karimkh31")
 # student most likely overwrote it by accident (e.g. `as reverse.s -o kernel.elf`).
 GIVEN_FILES = {
     "Task1/power_led.s": "3395f7aeedd9446303dd45c406de16c065cfa4400ef4dc2e2f46ff7e279ec916",
-    "Task2-3/kernel.elf": "fb1aeeec695ea32f4cd4627e9c060540a423afa6b052a9b7a3033ca54c30aacd",
+    "Task2-3/kernel.elf": "e48759dcd0ac579ebf481e40c40937ac8a83656610293212a538ced4ca9b443b",
     "Task2-3/kernel_clean.s": "c6db3b3889f6dcb32e73fefc55808aa016a645e47bb4a699e5a2cd88d1a5a5c6",
 }
 
 # The bonus hand-in *replaces* Bonus/flash.elf, so a changed flash.elf means "attempted".
-FLASH_ORIGINAL = "7fd2ab96085f90e66e1ad7346eb7ccaf6a78fd06d9070df80475d15e7e4bab49"
+FLASH_ORIGINAL = "33a7112b93d3aad56da3c10a0582d89130fd24af0b24b2c4bf25e2a7dca129a8"
 
 # `TODO:` at the start of a line or at the start of a markdown table cell,
 # ignoring any occurrence inside an inline `code span`.
