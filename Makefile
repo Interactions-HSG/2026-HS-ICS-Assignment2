@@ -5,8 +5,7 @@
 #   make disassemble      disassemble Task2-3/kernel.elf        -> Task2-3/kernel.s (Task 2)
 #   make led              compile your Task2-3/led.c            -> kernel7l.img     (Task 2.7)
 #   make reverse          assemble your Task2-3/reverse.s       -> kernel7l.img     (Task 3)
-#   make flash            unpack the given Bonus/flash.elf      -> kernel7l.img     (Bonus, original)
-#   make flash_optimized  assemble your Bonus/flash_optimized.s -> kernel7l.img     (Bonus)
+#   make flash            unpack Bonus/flash.elf, print size    -> kernel7l.img     (Bonus)
 #   make sizes            show the size of every image in build/
 #   make all              build everything into build/ without touching kernel7l.img
 #   make clean            remove build artifacts
@@ -31,11 +30,12 @@ CFLAGS  := -g -nostartfiles -mfloat-abi=hard -O0 -DRPI4 \
 KERNEL  := kernel7l.img
 BUILD   := build
 
-# The bonus file only exists once you create it, so only build it if it is there.
-PROGRAMS := power_led kernel led reverse flash \
-            $(if $(wildcard Bonus/flash_optimized.s),flash_optimized)
+# Size of the image of the flash.elf we hand out -- what the bonus is measured against.
+FLASH_ORIGINAL := 484
 
-.PHONY: all sizes clean disassemble toolchain $(PROGRAMS) flash_optimized
+PROGRAMS := power_led kernel led reverse flash
+
+.PHONY: all sizes clean disassemble toolchain $(PROGRAMS)
 
 # Build each program into build/ -- used by CI, leaves kernel7l.img alone.
 all: $(addprefix $(BUILD)/,$(addsuffix .img,$(PROGRAMS)))
@@ -46,12 +46,11 @@ $(BUILD):
 # Assembly -> ELF, with the GNU assembler.
 $(BUILD)/power_led.elf:       Task1/power_led.s         | $(BUILD) ; $(AS) $< -o $@
 $(BUILD)/reverse.elf:         Task2-3/reverse.s         | $(BUILD) ; $(AS) $< -o $@
-$(BUILD)/flash_optimized.elf: Bonus/flash_optimized.s   | $(BUILD) ; $(AS) $< -o $@
 
 # C -> ELF, with the compiler.
 $(BUILD)/led.elf:             Task2-3/led.c             | $(BUILD) ; $(CC) $(CFLAGS) $< -o $@
 
-# The two given programs are already ELF files.
+# These two are already ELF files. (For the bonus, your own version replaces flash.elf.)
 $(BUILD)/kernel.elf:          Task2-3/kernel.elf        | $(BUILD) ; cp $< $@
 $(BUILD)/flash.elf:           Bonus/flash.elf           | $(BUILD) ; cp $< $@
 
@@ -60,7 +59,7 @@ $(BUILD)/%.img: $(BUILD)/%.elf
 	$(OBJCOPY) $< -O binary $@
 
 # `make reverse` etc.: build it, then put it where the SD card expects it.
-$(filter-out flash_optimized,$(PROGRAMS)): %: $(BUILD)/%.img
+$(filter-out flash,$(PROGRAMS)): %: $(BUILD)/%.img
 	@cp $(BUILD)/$@.img $(KERNEL)
 	@echo
 	@echo "  Built $(KERNEL) from $@  ($$(wc -c < $(KERNEL) | tr -d ' ') bytes)"
@@ -68,19 +67,14 @@ $(filter-out flash_optimized,$(PROGRAMS)): %: $(BUILD)/%.img
 	@echo
 
 # Same as above, plus the number the bonus is graded on.
-flash_optimized: $(BUILD)/flash_optimized.img $(BUILD)/flash.img
+flash: $(BUILD)/flash.img
 	@cp $(BUILD)/$@.img $(KERNEL)
-	@new=$$(wc -c < $(BUILD)/flash_optimized.img | tr -d ' '); \
-	 old=$$(wc -c < $(BUILD)/flash.img | tr -d ' '); \
+	@new=$$(wc -c < $(KERNEL) | tr -d ' '); \
 	 echo; \
-	 echo "  Built $(KERNEL) from flash_optimized.s"; \
-	 echo "  Size: $$new bytes  (original flash.elf: $$old bytes, so $$((old - new)) bytes smaller)"; \
+	 echo "  Built $(KERNEL) from Bonus/flash.elf"; \
+	 echo "  Size: $$new bytes  (the original flash.elf: $(FLASH_ORIGINAL) bytes, so $$(($(FLASH_ORIGINAL) - new)) bytes smaller)"; \
 	 echo "  Copy it to the root of your FAT32 SD card, eject, and boot the Pi."; \
 	 echo
-
-Bonus/flash_optimized.s:
-	@echo "Bonus/flash_optimized.s does not exist yet -- create it first (see docs/TOOLCHAIN.md)."
-	@exit 1
 
 disassemble: Task2-3/kernel.elf
 	$(OBJDUMP) -d $< > Task2-3/kernel.s

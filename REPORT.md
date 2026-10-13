@@ -205,14 +205,14 @@ TODO: replace this line with your answer.
 ## 5. BONUS: The Smaller the Better (up to 3pt)
 
 Make the `kernel7l.img` of [`Bonus/flash.elf`](Bonus/flash.elf) (484 bytes) smaller while
-keeping its behaviour. Write your optimized program as assembly in a **new file
-`Bonus/flash_optimized.s`** and build it with `make flash_optimized` — it prints the size.
-Leave `flash.elf` itself unchanged.
+keeping its behaviour. Hand in your optimized program by **replacing `Bonus/flash.elf`** with
+it ([`docs/TOOLCHAIN.md`](docs/TOOLCHAIN.md) shows how). `make flash` prints the size. Run the
+original on your Pi first, so you know which behaviour to keep.
 
 Points: min(bytes saved × 0.01, 3.0). How similar your program is to the original is judged
 individually, so explain your approach in detail.
 
-If you did not attempt the bonus, write `not attempted` below and do not create the file.
+If you did not attempt the bonus, write `not attempted` below and leave `flash.elf` as it is.
 
 ### 5.1 How did you approach it?
 
@@ -228,7 +228,7 @@ TODO: replace this line with your answer.
 - [ ] No `TODO:` lines left in this file
 - [ ] `Task2-3/led.c` written, and it compiles (`make led`)
 - [ ] `Task2-3/reverse.s` modified, and it assembles (`make reverse`)
-- [ ] `Bonus/flash_optimized.s` created, or section 5.1 says `not attempted`
+- [ ] `Bonus/flash.elf` replaced with your optimized version, or section 5.1 says `not attempted`
 - [ ] Everything **committed and pushed**
 - [ ] Your partner **and** `lukabekavac` **and** `Karimkh31` added as collaborators
 - [ ] **One** of you submitted the repository URL on Canvas (not both)

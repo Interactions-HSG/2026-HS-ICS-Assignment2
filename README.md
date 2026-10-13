@@ -104,8 +104,8 @@ is no zip file and nothing to upload.
 Every place that needs an answer from you holds a line that starts with `TODO:`. Replace that
 whole line with your answer. That's the entire trick.
 
-Your code goes into three files: `Task2-3/led.c` (Task 2.7), `Task2-3/reverse.s` (Task 3) and,
-for the bonus, a new file `Bonus/flash_optimized.s`.
+Your code goes into `Task2-3/led.c` (Task 2.7) and `Task2-3/reverse.s` (Task 3). For the bonus,
+you replace `Bonus/flash.elf` with your optimized version.
 
 ## Step 5 · Save your work (this is what Git is for)
 
@@ -176,7 +176,7 @@ when something does not work.
 | `Task2-3/kernel_clean.s` | **Task 2.** The same program as assembly you can reassemble. Don't change it. |
 | `Task2-3/led.c` | **Task 2.7.** Empty — your C reconstruction of `kernel.elf` goes here. |
 | `Task2-3/reverse.s` | **Task 3.** Starts as a copy of `kernel_clean.s` — make it run in reverse. |
-| `Bonus/flash.elf` | **Bonus.** The program to shrink. Don't change it — your version goes in a new `Bonus/flash_optimized.s`. |
+| `Bonus/flash.elf` | **Bonus.** The program to shrink. For the bonus, replace it with your smaller version. |
 | `boot/` | Firmware for your SD card — the same as in Assignment 1. |
 | `docs/` | The assignment sheet, the command guide, the Arm Architecture Reference Manual, and the BCM2711 manual. |
 | `Makefile` | Build shortcuts: `make reverse` and friends. |

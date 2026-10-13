@@ -29,13 +29,14 @@ jobs:
       - name: Show resulting kernel images
         run: make -s sizes
 
+      # Only reports something once Bonus/flash.elf has been replaced (the original: 484 bytes).
       - name: Bonus image size
-        if: hashFiles('Bonus/flash_optimized.s') != ''
         run: |
-          old=$(wc -c < build/flash.img)
-          new=$(wc -c < build/flash_optimized.img)
-          echo "**Bonus:** your \`kernel7l.img\` is **$new bytes** (original: $old bytes) -- $((old - new)) bytes smaller." \
-            | tee -a "$GITHUB_STEP_SUMMARY"
+          new=$(wc -c < build/flash.img)
+          if [ "$new" -ne 484 ]; then
+            echo "**Bonus:** your \`kernel7l.img\` is **$new bytes** (original: 484 bytes) -- $((484 - new)) bytes smaller." \
+              | tee -a "$GITHUB_STEP_SUMMARY"
+          fi
 
   complete:
     name: Hand-in is complete

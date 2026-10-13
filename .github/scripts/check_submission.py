@@ -26,8 +26,10 @@ GIVEN_FILES = {
     "Task1/power_led.s": "3395f7aeedd9446303dd45c406de16c065cfa4400ef4dc2e2f46ff7e279ec916",
     "Task2-3/kernel.elf": "fb1aeeec695ea32f4cd4627e9c060540a423afa6b052a9b7a3033ca54c30aacd",
     "Task2-3/kernel_clean.s": "c6db3b3889f6dcb32e73fefc55808aa016a645e47bb4a699e5a2cd88d1a5a5c6",
-    "Bonus/flash.elf": "7fd2ab96085f90e66e1ad7346eb7ccaf6a78fd06d9070df80475d15e7e4bab49",
 }
+
+# The bonus hand-in *replaces* Bonus/flash.elf, so a changed flash.elf means "attempted".
+FLASH_ORIGINAL = "7fd2ab96085f90e66e1ad7346eb7ccaf6a78fd06d9070df80475d15e7e4bab49"
 
 # `TODO:` at the start of a line or at the start of a markdown table cell,
 # ignoring any occurrence inside an inline `code span`.
@@ -193,8 +195,8 @@ def check_given_files(r: Report) -> None:
             r.note(
                 f"`{name}` is not the file we gave you any more. That is usually an accident "
                 "(e.g. `-o kernel.elf` in the wrong folder). Your own work belongs in "
-                "`led.c`, `reverse.s` and `flash_optimized.s`; please restore the original "
-                "from the assignment repository."
+                "`led.c` and `reverse.s` (and, for the bonus, `Bonus/flash.elf`); please "
+                "restore the original from the assignment repository."
             )
 
 
@@ -221,21 +223,27 @@ def check_code(r: Report, report: str | None) -> None:
             "in reverse order.",
         )
 
-    bonus = ROOT / "Bonus" / "flash_optimized.s"
+    flash = ROOT / "Bonus" / "flash.elf"
     approach = section_body(report, "How did you approach it") if report else ""
     answered = approach.strip() and not find_todos(approach)
     declined = "not attempted" in approach.lower()
-    if bonus.exists():
+    if not flash.exists():
+        r.fail(
+            "Bonus/flash.elf",
+            "File is missing. For the bonus, your optimized version goes in its place; "
+            "if you did not do the bonus, restore the original from the assignment repository.",
+        )
+    elif hashlib.sha256(flash.read_bytes()).hexdigest() != FLASH_ORIGINAL:
         if declined:
             r.note(
-                "Section 5.1 says `not attempted`, but `Bonus/flash_optimized.s` exists. "
-                "If you did attempt the bonus, explain your approach in 5.1."
+                "Section 5.1 says `not attempted`, but `Bonus/flash.elf` is no longer the file "
+                "we gave you. If you did attempt the bonus, explain your approach in 5.1."
             )
     elif answered and not declined:
         r.fail(
-            "Bonus/flash_optimized.s",
-            "Section 5.1 describes a bonus attempt, but the file is missing. Commit your "
-            "optimized assembly as `Bonus/flash_optimized.s` -- or, if you did not do the "
+            "Bonus/flash.elf",
+            "Section 5.1 describes a bonus attempt, but `Bonus/flash.elf` is still the "
+            "original. Replace it with your optimized version -- or, if you did not do the "
             "bonus, write `not attempted` in 5.1.",
         )
 

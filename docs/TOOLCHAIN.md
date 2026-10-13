@@ -53,8 +53,7 @@ make kernel            # Task 2   -- the given Task2-3/kernel.elf
 make disassemble       # Task 2   -- disassemble kernel.elf into Task2-3/kernel.s
 make led               # Task 2.7 -- compile your Task2-3/led.c
 make reverse           # Task 3   -- assemble your Task2-3/reverse.s
-make flash             # Bonus    -- the given Bonus/flash.elf, as it is
-make flash_optimized   # Bonus    -- assemble your Bonus/flash_optimized.s, and print its size
+make flash             # Bonus    -- Bonus/flash.elf, and print its size
 ```
 
 Each of them (except `disassemble`) produces **`kernel7l.img`** in the main folder — that is the
@@ -146,19 +145,21 @@ In a Codespace you can also right-click the file → **Open With…** → **Hex 
 
 ### Bonus — make `flash.elf` smaller
 
-Disassemble it first, exactly like `kernel.elf`:
+Run the original on your Pi first, so you know what it does. Then disassemble it, exactly like
+`kernel.elf`:
 
 ```console
 cd Bonus
 arm-none-eabi-objdump -d flash.elf > flash.s
 ```
 
-Write your optimized version as assembly in a new file **`flash_optimized.s`** (in the same
-reassemblable style as `kernel_clean.s`), then:
+Write your smaller version as assembly, in the same reassemblable style as `kernel_clean.s` —
+say in a new file `flash_small.s` — and assemble it **over `flash.elf`**. Your `flash.elf` is
+what you hand in:
 
 ```console
-arm-none-eabi-as flash_optimized.s -o flash_optimized.elf
-arm-none-eabi-objcopy flash_optimized.elf -O binary kernel7l.img
+arm-none-eabi-as flash_small.s -o flash.elf
+arm-none-eabi-objcopy flash.elf -O binary kernel7l.img
 wc -c kernel7l.img                         # macOS, Linux: size in bytes
 ```
 
@@ -166,7 +167,9 @@ wc -c kernel7l.img                         # macOS, Linux: size in bytes
 (Get-Item kernel7l.img).Length            # Windows: size in bytes
 ```
 
-The original `flash.elf` gives a 484-byte image. Leave `flash.elf` itself unchanged.
+The original `flash.elf` gives a 484-byte image; `make flash` prints how many bytes you saved.
+Need the original back? It is in the
+[assignment repository](https://github.com/Interactions-HSG/2026-HS-ICS-Assignment2/blob/main/Bonus/flash.elf).
 
 ---
 
@@ -191,4 +194,4 @@ anything that has to run on the Pi, build `kernel7l.img` on your own machine.
 | `cannot find entry symbol _start` | Not an error. Expected. Ignore. |
 | Pi does nothing at all | `kernel7l.img` missing or misnamed on the card, or the three `boot/` files are missing, or the card is not FAT32. |
 | One or both LEDs never light | Check the wiring first: LED polarity (the long leg is +), the resistor, and the pins — physical pins **38** and **40** are BCM **20** and **21** ([pinout.xyz](https://pinout.xyz/)). |
-| `git status` says `kernel.elf` or `flash.elf` is modified | You overwrote a given file. Restore it: `git checkout -- Task2-3/kernel.elf` (or `Bonus/flash.elf`). |
+| `git status` says `kernel.elf` is modified | You overwrote the given file. Restore it: `git checkout -- Task2-3/kernel.elf`. (A modified `Bonus/flash.elf` is expected once you do the bonus.) |
